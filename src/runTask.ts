@@ -1,6 +1,7 @@
 import ECS, { KeyValuePair, RunTaskRequest } from 'aws-sdk/clients/ecs';
 import EC2, { Filter } from 'aws-sdk/clients/ec2';
 import * as core from '@actions/core';
+import { to } from 'await-to-js';
 
 export class ClusterNotFound extends Error {}
 export class TaskCreationError extends Error {}
@@ -75,7 +76,10 @@ export default async function runTask(
           SubnetIds: subnetIds,
         })
         .promise(),
-    ]);
+    ]).catch((err) => {
+      console.log('Security group');
+      throw err;
+    });
 
     const securityGroupIds =
       sg.SecurityGroups?.map((group) => group.GroupId).filter((id): id is string => !!id) ??

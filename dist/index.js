@@ -22234,7 +22234,10 @@ async function runTask(taskName, cluster, { checkClusterExists = false, isPublic
                 SubnetIds: subnetIds,
             })
                 .promise(),
-        ]);
+        ]).catch((err) => {
+            console.log('Security group');
+            throw err;
+        });
         const securityGroupIds = (_b = (_a = sg.SecurityGroups) === null || _a === void 0 ? void 0 : _a.map((group) => group.GroupId).filter((id) => !!id)) !== null && _b !== void 0 ? _b : undefined;
         core.info(`SecurityGroups ids: ${!securityGroupIds ? 'empty' : securityGroupIds.join(',')}`);
         const sbnIds = ((_d = (_c = subnets.Subnets) === null || _c === void 0 ? void 0 : _c.map((net) => net.SubnetId)) !== null && _d !== void 0 ? _d : []).filter((id) => !!id);
