@@ -22143,9 +22143,9 @@ async function main() {
             wait,
             timeout,
             sgIds,
-            sgFilters,
+            sgFilters: sgFilters || [],
             sgNames,
-            subnetFilters,
+            subnetFilters: subnetFilters || [],
             subnetIds,
             capacityProvider,
         });
@@ -22218,6 +22218,8 @@ async function runTask(taskName, cluster, { checkClusterExists = false, isPublic
         core.error(`Error: cluster "${cluster}" not found! Check out params!`);
         throw new ClusterNotFound();
     }
+    console.log('Sgf', sgFilters);
+    console.log('SdnF', subnetFilters);
     const { securityGroupIds, sbnIds } = await core.group('Fetch network settings', async () => {
         var _a, _b, _c, _d;
         const [sg, subnets] = await Promise.all([
@@ -22235,7 +22237,7 @@ async function runTask(taskName, cluster, { checkClusterExists = false, isPublic
             })
                 .promise(),
         ]).catch((err) => {
-            console.log('Security group');
+            console.log(`Security group err: ${err.message}`);
             throw err;
         });
         const securityGroupIds = (_b = (_a = sg.SecurityGroups) === null || _a === void 0 ? void 0 : _a.map((group) => group.GroupId).filter((id) => !!id)) !== null && _b !== void 0 ? _b : undefined;

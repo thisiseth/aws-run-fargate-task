@@ -85,9 +85,9 @@ export default async function main() {
       wait,
       timeout,
       sgIds,
-      sgFilters,
+      sgFilters: sgFilters || [],
       sgNames,
-      subnetFilters,
+      subnetFilters: subnetFilters || [],
       subnetIds,
       capacityProvider,
     });

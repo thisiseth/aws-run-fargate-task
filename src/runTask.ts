@@ -61,6 +61,8 @@ export default async function runTask(
     throw new ClusterNotFound();
   }
 
+  console.log('Sgf', sgFilters);
+  console.log('SdnF', subnetFilters);
   const { securityGroupIds, sbnIds } = await core.group('Fetch network settings', async () => {
     const [sg, subnets] = await Promise.all([
       ec2
@@ -77,7 +79,7 @@ export default async function runTask(
         })
         .promise(),
     ]).catch((err) => {
-      console.log('Security group');
+      console.log(`Security group err: ${err.message}`);
       throw err;
     });
 
