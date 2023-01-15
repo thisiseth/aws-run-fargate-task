@@ -23789,7 +23789,7 @@ async function runTask(taskName, cluster, { checkClusterExists = false, isPublic
     return await core.group('Flush task to ECS', async () => {
         var _a, _b, _c, _d, _e, _f;
         core.info(`Run task: ${taskName}`);
-        const runTaksRequestParams = {
+        const runTaskRequestParams = {
             count,
             cluster,
             taskDefinition: taskName,
@@ -23801,8 +23801,10 @@ async function runTask(taskName, cluster, { checkClusterExists = false, isPublic
                 },
             },
         };
+        console.log('command', command);
+        console.log('environment', environment);
         if (command || environment) {
-            runTaksRequestParams.overrides = {
+            runTaskRequestParams.overrides = {
                 containerOverrides: [
                     {
                         name: taskName,
@@ -23813,7 +23815,7 @@ async function runTask(taskName, cluster, { checkClusterExists = false, isPublic
             };
         }
         if (capacityProvider) {
-            runTaksRequestParams.capacityProviderStrategy = [
+            runTaskRequestParams.capacityProviderStrategy = [
                 {
                     base: count,
                     capacityProvider,
@@ -23821,7 +23823,8 @@ async function runTask(taskName, cluster, { checkClusterExists = false, isPublic
                 },
             ];
         }
-        const runTaskResponse = await ecs.runTask(runTaksRequestParams).promise();
+        console.log('runTask params', runTaskRequestParams);
+        const runTaskResponse = await ecs.runTask(runTaskRequestParams).promise();
         if (!((_a = runTaskResponse.tasks) === null || _a === void 0 ? void 0 : _a.length) || !runTaskResponse.tasks[0].taskArn) {
             console.log('Run ecs task response >>>', runTaskResponse);
             core.error(`Error: task "${taskName}" couldn't created! Check out params!`);
