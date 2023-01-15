@@ -101,7 +101,7 @@ export default async function runTask(
   return await core.group('Flush task to ECS', async () => {
     core.info(`Run task: ${taskName}`);
 
-    const runTaksRequestParams: RunTaskRequest = {
+    const runTaskRequestParams: RunTaskRequest = {
       count,
       cluster,
       taskDefinition: taskName,
@@ -114,6 +114,9 @@ export default async function runTask(
       },
     };
 
+	console.log('command', command);
+	console.log('environment', environment);
+	  
     if (command || environment) {
       runTaksRequestParams.overrides = {
         containerOverrides: [
@@ -136,7 +139,9 @@ export default async function runTask(
       ];
     }
 
-    const runTaskResponse = await ecs.runTask(runTaksRequestParams).promise();
+    console.log('runTask params',runTaskRequestParams);
+
+    const runTaskResponse = await ecs.runTask(runTaskRequestParams).promise();
 
     if (!runTaskResponse.tasks?.length || !runTaskResponse.tasks[0].taskArn) {
       console.log('Run ecs task response >>>', runTaskResponse);
