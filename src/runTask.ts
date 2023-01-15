@@ -117,7 +117,7 @@ export default async function runTask(
 	console.log('command', command);
 	console.log('environment', environment);
 	  
-    if (command || environment) {
+    if (command || environment?.length != 0) {
       runTaskRequestParams.overrides = {
         containerOverrides: [
           {
