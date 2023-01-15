@@ -23803,7 +23803,7 @@ async function runTask(taskName, cluster, { checkClusterExists = false, isPublic
         };
         console.log('command', command);
         console.log('environment', environment);
-        if (command || environment) {
+        if (command || (environment === null || environment === void 0 ? void 0 : environment.length) != 0) {
             runTaskRequestParams.overrides = {
                 containerOverrides: [
                     {
