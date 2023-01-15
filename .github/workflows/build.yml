@@ -1,0 +1,28 @@
+name: build ts
+
+on:
+  workflow_dispatch:
+  
+permissions:
+  contents: write
+  
+jobs:
+  build-ts:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        
+    - run: npm install
+    - run: npm run build
+    - uses: EndBug/add-and-commit@v9
+      with:
+        message: build ts
+        committer_name: GitHub Actions
+        committer_email: actions@github.com
+        push: true
+    
+    

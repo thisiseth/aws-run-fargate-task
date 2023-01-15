@@ -2,7 +2,7 @@ name: 'AWS ECS. Run fargate Task'
 description: 'Run and wait untill end existing ECS task'
 inputs:
   task_name:
-    description: 'Name of existing ECS task, in the form of `name[:version]`.'
+    description: 'Name of existing ECS task, in the form of ARN or `name[:version]`.'
     required: true
   cluster:
     description: 'ECS Cluster to run task on'
@@ -53,7 +53,7 @@ outputs:
     description: 'Exit status of container'
 
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
 
 branding:

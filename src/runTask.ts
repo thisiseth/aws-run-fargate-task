@@ -67,14 +67,14 @@ export default async function runTask(
     const [sg, subnets] = await Promise.all([
       ec2
         .describeSecurityGroups({
-          Filters: sgFilters,
+          ...(sgFilters?.length != 0 && {Filters: sgFilters}),
           GroupIds: sgIds,
           GroupNames: sgNames,
         })
         .promise(),
       ec2
         .describeSubnets({
-          Filters: subnetFilters,
+          ...(subnetFilters?.length != 0 && {Filters: subnetFilters}),
           SubnetIds: subnetIds,
         })
         .promise(),

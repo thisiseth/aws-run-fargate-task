@@ -22143,9 +22143,9 @@ async function main() {
             wait,
             timeout,
             sgIds,
-            sgFilters: sgFilters || [],
+            sgFilters,
             sgNames,
-            subnetFilters: subnetFilters || [],
+            subnetFilters,
             subnetIds,
             capacityProvider,
         });
@@ -22224,17 +22224,10 @@ async function runTask(taskName, cluster, { checkClusterExists = false, isPublic
         var _a, _b, _c, _d;
         const [sg, subnets] = await Promise.all([
             ec2
-                .describeSecurityGroups({
-                Filters: sgFilters,
-                GroupIds: sgIds,
-                GroupNames: sgNames,
-            })
+                .describeSecurityGroups(Object.assign(Object.assign({}, (sgFilters && { Filters: sgFilters })), { GroupIds: sgIds, GroupNames: sgNames }))
                 .promise(),
             ec2
-                .describeSubnets({
-                Filters: subnetFilters,
-                SubnetIds: subnetIds,
-            })
+                .describeSubnets(Object.assign(Object.assign({}, (subnetFilters && { Filters: subnetFilters })), { SubnetIds: subnetIds }))
                 .promise(),
         ]).catch((err) => {
             console.log(`Security group err: ${err.message}`);
