@@ -118,7 +118,7 @@ export default async function runTask(
 	console.log('environment', environment);
 	  
     if (command || environment) {
-      runTaksRequestParams.overrides = {
+      runTaskRequestParams.overrides = {
         containerOverrides: [
           {
             name: taskName,
@@ -130,7 +130,7 @@ export default async function runTask(
     }
 
     if (capacityProvider) {
-      runTaksRequestParams.capacityProviderStrategy = [
+      runTaskRequestParams.capacityProviderStrategy = [
         {
           base: count,
           capacityProvider,
@@ -139,7 +139,7 @@ export default async function runTask(
       ];
     }
 
-    console.log('runTask params',runTaskRequestParams);
+    console.log('runTask params', runTaskRequestParams);
 
     const runTaskResponse = await ecs.runTask(runTaskRequestParams).promise();
 
